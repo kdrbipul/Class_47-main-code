@@ -12,6 +12,7 @@ const auth = getAuth(app);
 
 const Login = () => {
     const [logSuccess, setLogSuccess] = useState(false);
+    const [userEmail, setUserEmail] = useState('');
 
     const handleOnSubmit=(e)=>{
         e.preventDefault();
@@ -29,13 +30,26 @@ const Login = () => {
         .catch (error => console.log(error))
     }
 
+    const handleEmailPassword = (event) =>{
+        const email = event.target.value;
+        console.log(email);
+        setUserEmail(email)
+    }
+
+    const handleForgetPassword = () =>{
+        if(!userEmail){
+            alert("Please Enter Your Valid Email Address");
+            return;
+        }
+    }
+
     return (
         <div className='container'>
             <form onSubmit={handleOnSubmit} className='w-50 mx-auto my-5 shadow p-5 background_col rounded-3'>
                 <h4 className='text-center'>Please Login</h4>
                 <div className="mb-3">
                     <label className="form-label">Email address</label>
-                    <input type="email" name='email' className="form-control"  aria-describedby="emailHelp" required />
+                    <input onBlur={handleEmailPassword} type="email" name='email' className="form-control"  aria-describedby="emailHelp" required />
                 </div>
                 <div className="mb-3">
                     <label  className="form-label">Password</label>
@@ -45,6 +59,7 @@ const Login = () => {
                     <input type="checkbox" name="checkbox" className="form-check-input"  />
                     <label className="form-check-label" >Check me out</label>
                 </div> */}
+                <p><span>Forget Password? <button onSubmit={handleForgetPassword} className='btn btn-link'>Please Reset</button></span></p>
                 <p>New User In a website <Link to='/register'>Please Register</Link></p>
                 <button type="submit" className="btn btn-primary w-100">Login</button>
                 {
