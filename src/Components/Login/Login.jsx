@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { getAuth, signInWithEmailAndPassword } from "firebase/auth";
+import { getAuth, sendPasswordResetEmail, signInWithEmailAndPassword } from "firebase/auth";
 import app from '../../Shared/Firebase/Firebase.config';
 import { Link } from 'react-router-dom';
 
@@ -41,11 +41,15 @@ const Login = () => {
             alert("Please Enter Your Valid Email Address");
             return;
         }
+        sendPasswordResetEmail(auth, userEmail)
+        .then(()=>{
+            alert('Check your email & reset your password')
+        })
     }
 
     return (
-        <div className='container'>
-            <form onSubmit={handleOnSubmit} className='w-50 mx-auto my-5 shadow p-5 background_col rounded-3'>
+        <div className='container w-50 mx-auto my-5 shadow p-5  rounded-3 background_col'>
+            <form onSubmit={handleOnSubmit} className=''>
                 <h4 className='text-center'>Please Login</h4>
                 <div className="mb-3">
                     <label className="form-label">Email address</label>
@@ -59,13 +63,14 @@ const Login = () => {
                     <input type="checkbox" name="checkbox" className="form-check-input"  />
                     <label className="form-check-label" >Check me out</label>
                 </div> */}
-                <p><span>Forget Password? <button onSubmit={handleForgetPassword} className='btn btn-link'>Please Reset</button></span></p>
+                
                 <p>New User In a website <Link to='/register'>Please Register</Link></p>
                 <button type="submit" className="btn btn-primary w-100">Login</button>
                 {
                     logSuccess && <p className='text-danger'>Successfully Login</p>
                 }
             </form>
+            <p className='mt-3'><span>Forget Password? <button onSubmit={handleForgetPassword} className='btn btn-link'>Please Reset</button></span></p>
         </div>
     );
 };
